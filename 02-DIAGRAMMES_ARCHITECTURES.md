@@ -79,11 +79,11 @@ graph LR
     Q4 -->|Simple| DEMO1[Demo-1: Clerk Upsert]
     Q4 -->|Complexe| DEMO2[Demo-2: Clerk Relations]
     
-    style DEMO0 fill:#e1f5ff
-    style DEMO1 fill:#e8f5e9
-    style DEMO2 fill:#fff3e0
-    style DEMO3 fill:#f3e5f5
-    style DEMO4 fill:#fce4ec
+    style DEMO0 fill:#b3e5fc
+    style DEMO1 fill:#c8e6c9
+    style DEMO2 fill:#ffe0b2
+    style DEMO3 fill:#e1bee7
+    style DEMO4 fill:#f8bbd0
 ```
 
 ---
@@ -294,7 +294,7 @@ graph LR
     J --> K[Render Page]
     
     style D fill:#ffcdd2
-    style J fill:#c8e6c9
+    style J fill:#a5d6a7
 ```
 
 ---
@@ -428,9 +428,9 @@ graph TB
         B2 -.->|Même valeur| B2
     end
     
-    style B1 fill:#e3f2fd
-    style C1 fill:#e3f2fd
-    style B2 fill:#f3e5f5
+    style B1 fill:#bbdefb
+    style C1 fill:#bbdefb
+    style B2 fill:#e1bee7
 ```
 
 ---
@@ -621,8 +621,8 @@ graph TB
         E2 --> F2[Query DB on each request]
     end
     
-    style F1 fill:#c8e6c9
-    style F2 fill:#ffecb3
+    style F1 fill:#a5d6a7
+    style F2 fill:#fff59d
 ```
 
 ---
@@ -853,11 +853,11 @@ graph LR
         D4["Demo-4<br/>< 200ms<br/>(auto)"]
     end
     
-    style D0 fill:#ffeb3b
-    style D1 fill:#8bc34a
-    style D2 fill:#ffc107
-    style D3 fill:#4caf50
-    style D4 fill:#8bc34a
+    style D0 fill:#fff9c4
+    style D1 fill:#c5e1a5
+    style D2 fill:#ffe082
+    style D3 fill:#a5d6a7
+    style D4 fill:#c5e1a5
 ```
 
 ### Complexité de setup
@@ -900,11 +900,11 @@ graph TB
     T2 -.-> T3
     T3 -.-> T4
     
-    style T0 fill:#e8f5e9
-    style T1 fill:#e8f5e9
-    style T2 fill:#fff3e0
-    style T3 fill:#f3e5f5
-    style T4 fill:#fce4ec
+    style T0 fill:#c8e6c9
+    style T1 fill:#c8e6c9
+    style T2 fill:#ffe0b2
+    style T3 fill:#e1bee7
+    style T4 fill:#f8bbd0
 ```
 
 ### Coût par nombre d'utilisateurs
@@ -957,9 +957,9 @@ graph TB
         A3 --> A4[DB]
     end
     
-    style W5 fill:#e1f5fe
-    style U5 fill:#f3e5f5
-    style A4 fill:#fff3e0
+    style W5 fill:#b3e5fc
+    style U5 fill:#e1bee7
+    style A4 fill:#ffe0b2
 ```
 
 ---
@@ -979,8 +979,8 @@ graph TD
     STEP6 --> STEP7[Remove syncUser calls]
     STEP7 --> END[Demo-0 Production]
     
-    style START fill:#e8f5e9
-    style END fill:#e1f5fe
+    style START fill:#c8e6c9
+    style END fill:#b3e5fc
 ```
 
 ### De Clerk vers NextAuth
@@ -1002,9 +1002,9 @@ graph TD
     MONITOR --> CLEANUP[Remove Clerk]
     CLEANUP --> END[NextAuth Project]
     
-    style START fill:#e3f2fd
-    style DUAL fill:#fff9c4
-    style END fill:#f3e5f5
+    style START fill:#bbdefb
+    style DUAL fill:#fff59d
+    style END fill:#e1bee7
 ```
 
 ### Progression pédagogique recommandée
@@ -1020,12 +1020,12 @@ graph LR
     
     D3 --> D4[Demo-4<br/>NextAuth Pro]
     
-    style START fill:#e8f5e9
-    style D1 fill:#c8e6c9
-    style D2 fill:#a5d6a7
-    style D0 fill:#81c784
-    style D3 fill:#81c784
-    style D4 fill:#66bb6a
+    style START fill:#c8e6c9
+    style D1 fill:#a5d6a7
+    style D2 fill:#81c784
+    style D0 fill:#66bb6a
+    style D3 fill:#66bb6a
+    style D4 fill:#4caf50
 ```
 
 ### Migration de schéma : ID séparé vers ID direct
@@ -1048,7 +1048,7 @@ graph TB
     MODIFY --> PUSH[prisma db push]
     PUSH --> END
     
-    style COMPLEX fill:#ffcdd2
+    style COMPLEX fill:#ffccbc
     style SIMPLE fill:#c8e6c9
     style END fill:#a5d6a7
 ```
@@ -1164,10 +1164,10 @@ graph LR
         O4["Demo-4<br/>1-4 ops<br/>(Relations)"]
     end
     
-    style O0 fill:#c8e6c9
-    style O1 fill:#fff9c4
+    style O0 fill:#a5d6a7
+    style O1 fill:#fff59d
     style O2 fill:#ffccbc
-    style O3 fill:#c8e6c9
+    style O3 fill:#a5d6a7
     style O4 fill:#ffccbc
 ```
 
@@ -1218,12 +1218,12 @@ graph TB
     style C2 fill:#c8e6c9
     style C3 fill:#c8e6c9
     style C4 fill:#c8e6c9
-    style N1 fill:#fff9c4
-    style N2 fill:#fff9c4
-    style N3 fill:#fff9c4
-    style N4 fill:#fff9c4
-    style N5 fill:#fff9c4
-    style N6 fill:#fff9c4
+    style N1 fill:#ffe082
+    style N2 fill:#ffe082
+    style N3 fill:#ffe082
+    style N4 fill:#ffe082
+    style N5 fill:#ffe082
+    style N6 fill:#ffe082
 ```
 
 ---
