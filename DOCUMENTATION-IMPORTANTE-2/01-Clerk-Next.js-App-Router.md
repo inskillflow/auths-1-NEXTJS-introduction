@@ -470,3 +470,92 @@ export default function Page() {
 > Règle d’or : si ça touche **auth serveur**, **base de données**, **secrets** → c’est **serveur**, pas client.
 
 
+
+# Annexe 4 - La page **/welcome** a-elle besoin de UI
+
+
+Oui, c’est normal : la page **/welcome** n’a pas besoin d’interface graphique. Son job est juste **exécuter la synchro serveur** puis **rediriger**.
+Si tu veux **voir** quelque chose (loader/confirmation), voici 2 façons.
+
+---
+
+## Option 1 — Headless (recommandée, sans UI)
+
+Redirige direct après la synchro (ultra rapide) :
+
+```tsx
+// app/welcome/page.tsx  (SERVER)
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
+import { syncUser } from "@/lib/sync-user";
+
+export default async function WelcomePage() {
+  const { userId } = auth();
+  if (!userId) redirect("/sign-in");
+  await syncUser();
+  redirect("/members");
+}
+```
+
+---
+
+## Option 2 — Avec mini-UI “Synchronisation…” (auto-submit → server action → redirect)
+
+Tu affiches un petit écran, et ça part tout seul.
+
+```tsx
+// app/welcome/page.tsx  (SERVER)
+import { auth } from "@clerk/nextjs/server";
+import { syncUser } from "@/lib/sync-user";
+
+async function syncAndGo() {
+  "use server";
+  await syncUser();
+  // Redirection serveur après synchro
+  const { redirect } = await import("next/navigation");
+  redirect("/members");
+}
+
+export default async function WelcomePage() {
+  const { userId } = auth();
+  if (!userId) {
+    const { redirect } = await import("next/navigation");
+    redirect("/sign-in");
+  }
+
+  return (
+    <div className="min-h-dvh grid place-items-center p-8 text-center">
+      <div className="space-y-3">
+        <div className="animate-pulse text-xl font-semibold">Synchronisation…</div>
+        <p className="text-sm opacity-70">Veuillez patienter une seconde.</p>
+
+        {/* Le formulaire appelle la server action ci-dessus */}
+        <form action={syncAndGo} id="auto-sync" />
+
+        {/* Client component qui soumet le formulaire automatiquement */}
+        <AutoSubmit formId="auto-sync" />
+      </div>
+    </div>
+  );
+}
+
+// app/welcome/AutoSubmit.tsx  (CLIENT)
+"use client";
+import { useEffect } from "react";
+
+export default function AutoSubmit({ formId }: { formId: string }) {
+  useEffect(() => {
+    const form = document.getElementById(formId) as HTMLFormElement | null;
+    form?.submit();
+  }, [formId]);
+  return null;
+}
+```
+
+### Quand choisir quoi ?
+
+* **Option 1** : plus simple et plus rapide → idéal en prod.
+* **Option 2** : utile si toi/tes étudiants voulez voir un **loader/confirmation** avant la redirection.
+
+> Rappel : toute la logique (Prisma, `auth()`, `syncUser`) reste **côté serveur**. Le composant client sert uniquement à auto-soumettre le formulaire dans l’option 2.
+
