@@ -358,3 +358,115 @@ sequenceDiagram
 ```
 
 
+# annexe 2 
+
+
+Un **composant serveur** (Next.js App Router) est un composant React **exécuté sur le serveur**, jamais dans le navigateur.
+
+* **Ce que ça fait bien :** il peut accéder en toute sécurité à la **base de données**, aux **secrets** (.env), aux API **server-side** (ex. `@clerk/nextjs/server`, Prisma), faire du **data-fetching** sans exposer les clés, et **rendre du HTML** déjà rempli avant d’arriver au client (meilleures perfs/SEO).
+* **Ce qu’il ne peut pas faire :** pas de hooks React client (`useState`, `useEffect`, `useRef` pour l’UI), pas d’événements DOM. S’il te faut de l’interactivité (onClick, formulaires contrôlés…), tu **rend** un **Client Component** à l’intérieur.
+* **Reconnaître/écrire :** par défaut, un fichier dans `app/` est serveur **tant que** tu n’écris pas `"use client"` en tête. Un composant client doit explicitement mettre `"use client"`.
+* **Communication :** un composant serveur peut **passer des props sérialisables** à un composant client, ou exposer une **Server Action** (fonction marquée `"use server"`) que le client peut appeler via un `<form action={...}>`.
+* **Cas d’usage typiques :** pages de **post-login** (`/welcome`), **SSR** avec Prisma, lecture d’auth côté serveur (`auth()`, `currentUser`), rendu de listes/SEO.
+
+Mini-exemple :
+
+```tsx
+// app/welcome/page.tsx  → Server Component (pas de "use client")
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
+import { prisma } from "@/lib/prisma";
+
+export default async function WelcomePage() {
+  const { userId } = auth();
+  if (!userId) redirect("/sign-in");
+
+  await prisma.user.upsert({ /* ... */ }); // OK côté serveur
+  redirect("/members");
+}
+```
+
+> Règle d’or : **jamais** importer des APIs serveur (`@clerk/nextjs/server`, Prisma) dans un composant marqué `"use client"`.
+
+
+# Annexe 3
+
+
+Un **Client Component** (Next.js App Router) est un composant React exécuté **dans le navigateur**.
+Tu le déclares en mettant `"use client"` tout en haut du fichier.
+
+## À quoi ça sert
+
+* Interactivité UI : `onClick`, formulaires contrôlés, animations.
+* Hooks **client** : `useState`, `useEffect`, `useRef`, `useContext`.
+* Accès aux **APIs client** : `window`, `document`, localStorage, MediaQuery, etc.
+* Composants Clerk côté client : `useUser`, `<UserButton/>`, `<SignIn/>`, `<SignUp/>`, `SignedIn/Out`.
+
+## Ce que **tu ne dois pas faire** dans un Client Component
+
+* ❌ **Ne pas** importer des APIs serveur ou du code marqué serveur :
+
+  * `@clerk/nextjs/server` (`auth`, `currentUser`)
+  * `import "server-only"`
+  * Prisma (accès DB)
+  * `fs`, accès .env, secrets
+* ❌ **Ne pas** exécuter de logique sensible (RBAC, queries DB) côté client.
+* ❌ **Ne pas** mettre de Server Actions directement (les Server Actions vivent dans un composant **serveur** ou une fonction marquée `"use server"` appelée depuis un formulaire).
+
+## Pattern correct (séparer client/serveur)
+
+**Client (UI interactive)**
+
+```tsx
+// app/profile/ProfileForm.tsx
+"use client";
+export function ProfileForm({ action }: { action: (fd: FormData) => Promise<void> }) {
+  return (
+    <form action={action}>
+      <input name="displayName" />
+      <button type="submit">Save</button>
+    </form>
+  );
+}
+```
+
+**Serveur (logique, DB, auth)**
+
+```tsx
+// app/profile/page.tsx  ← SERVER (pas de "use client")
+import { ProfileForm } from "./ProfileForm";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
+
+export default function Page() {
+  async function saveAction(fd: FormData) {
+    "use server";
+    const { userId } = auth();             // OK côté serveur
+    await prisma.user.update({
+      where: { clerkId: userId! },         // DB OK côté serveur
+      data: { name: String(fd.get("displayName") ?? "") },
+    });
+  }
+  return <ProfileForm action={saveAction} />;
+}
+```
+
+## Règles mémo
+
+* **Client** = interactivité + hooks client. **Serveur** = auth/DB/secrets.
+* Un composant **client** peut recevoir des **props sérialisables** depuis un composant serveur, mais **ne peut pas** importer du code serveur.
+* Pour appeler du serveur depuis le client :
+
+  * Soit **Server Action** passée comme `action` d’un `<form>`,
+  * Soit **route API** (`app/api/.../route.ts`) et `fetch` depuis le client.
+
+## Avec Clerk (pièges courants)
+
+* ✅ Dans **client** : `useUser`, `<UserButton/>`, `<SignIn/>`, `<SignUp/>`.
+* ❌ Dans **client** : `auth()`, `currentUser` (serveur only).
+* ✅ Synchro DB (`syncUser`, Prisma) → côté **serveur** (ex. page `/welcome`).
+* ❌ Ne jamais appeler `syncUser()` dans un composant client ou dans `useEffect`.
+
+> Règle d’or : si ça touche **auth serveur**, **base de données**, **secrets** → c’est **serveur**, pas client.
+
+
