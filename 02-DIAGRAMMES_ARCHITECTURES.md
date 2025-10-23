@@ -79,11 +79,11 @@ graph LR
     Q4 -->|Simple| DEMO1[Demo-1: Clerk Upsert]
     Q4 -->|Complexe| DEMO2[Demo-2: Clerk Relations]
     
-    style DEMO0 fill:#b3e5fc
-    style DEMO1 fill:#c8e6c9
-    style DEMO2 fill:#ffe0b2
-    style DEMO3 fill:#e1bee7
-    style DEMO4 fill:#f8bbd0
+    style DEMO0 fill:#81d4fa
+    style DEMO1 fill:#aed581
+    style DEMO2 fill:#ffcc80
+    style DEMO3 fill:#ce93d8
+    style DEMO4 fill:#f48fb1
 ```
 
 ---
@@ -428,9 +428,9 @@ graph TB
         B2 -.->|Même valeur| B2
     end
     
-    style B1 fill:#bbdefb
-    style C1 fill:#bbdefb
-    style B2 fill:#e1bee7
+    style B1 fill:#90caf9
+    style C1 fill:#90caf9
+    style B2 fill:#ce93d8
 ```
 
 ---
@@ -853,11 +853,11 @@ graph LR
         D4["Demo-4<br/>< 200ms<br/>(auto)"]
     end
     
-    style D0 fill:#fff9c4
-    style D1 fill:#c5e1a5
-    style D2 fill:#ffe082
-    style D3 fill:#a5d6a7
-    style D4 fill:#c5e1a5
+    style D0 fill:#fff176
+    style D1 fill:#aed581
+    style D2 fill:#ffd54f
+    style D3 fill:#81c784
+    style D4 fill:#aed581
 ```
 
 ### Complexité de setup
@@ -876,11 +876,11 @@ graph TB
     D3 --> E3[Complexe]
     D4 --> E4[Très Complexe]
     
-    style E1 fill:#c8e6c9
-    style E0 fill:#fff9c4
-    style E2 fill:#fff9c4
-    style E3 fill:#ffccbc
-    style E4 fill:#ffcdd2
+    style E1 fill:#a5d6a7
+    style E0 fill:#fff176
+    style E2 fill:#fff176
+    style E3 fill:#ffab91
+    style E4 fill:#ef9a9a
 ```
 
 ### Tables de base de données
@@ -900,11 +900,11 @@ graph TB
     T2 -.-> T3
     T3 -.-> T4
     
-    style T0 fill:#c8e6c9
-    style T1 fill:#c8e6c9
-    style T2 fill:#ffe0b2
-    style T3 fill:#e1bee7
-    style T4 fill:#f8bbd0
+    style T0 fill:#a5d6a7
+    style T1 fill:#a5d6a7
+    style T2 fill:#ffcc80
+    style T3 fill:#ce93d8
+    style T4 fill:#f48fb1
 ```
 
 ### Coût par nombre d'utilisateurs
@@ -926,11 +926,11 @@ graph TD
     C2 --> C3
     C3 --> C4
     
-    style C1 fill:#c8e6c9
-    style C2 fill:#fff9c4
-    style C3 fill:#ffccbc
-    style C4 fill:#ffcdd2
-    style N1 fill:#a5d6a7
+    style C1 fill:#a5d6a7
+    style C2 fill:#fff176
+    style C3 fill:#ffab91
+    style C4 fill:#ef9a9a
+    style N1 fill:#81c784
 ```
 
 ### Patterns de synchronisation
@@ -957,9 +957,9 @@ graph TB
         A3 --> A4[DB]
     end
     
-    style W5 fill:#b3e5fc
-    style U5 fill:#e1bee7
-    style A4 fill:#ffe0b2
+    style W5 fill:#81d4fa
+    style U5 fill:#ce93d8
+    style A4 fill:#ffcc80
 ```
 
 ---
@@ -979,8 +979,8 @@ graph TD
     STEP6 --> STEP7[Remove syncUser calls]
     STEP7 --> END[Demo-0 Production]
     
-    style START fill:#c8e6c9
-    style END fill:#b3e5fc
+    style START fill:#a5d6a7
+    style END fill:#81d4fa
 ```
 
 ### De Clerk vers NextAuth
@@ -1002,9 +1002,9 @@ graph TD
     MONITOR --> CLEANUP[Remove Clerk]
     CLEANUP --> END[NextAuth Project]
     
-    style START fill:#bbdefb
-    style DUAL fill:#fff59d
-    style END fill:#e1bee7
+    style START fill:#90caf9
+    style DUAL fill:#fff176
+    style END fill:#ce93d8
 ```
 
 ### Progression pédagogique recommandée
@@ -1020,8 +1020,8 @@ graph LR
     
     D3 --> D4[Demo-4<br/>NextAuth Pro]
     
-    style START fill:#c8e6c9
-    style D1 fill:#a5d6a7
+    style START fill:#aed581
+    style D1 fill:#9ccc65
     style D2 fill:#81c784
     style D0 fill:#66bb6a
     style D3 fill:#66bb6a
