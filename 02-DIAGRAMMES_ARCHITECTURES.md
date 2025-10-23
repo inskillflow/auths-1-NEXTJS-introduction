@@ -1089,36 +1089,59 @@ graph TB
 ### Recommandations par contexte
 
 ```mermaid
-mindmap
-  root((Choix<br/>Architecture))
-    Contexte Startup
-      MVP Rapide
-        Demo-1
-      Validation Marché
-        Demo-1
-      Croissance Prévue
-        Demo-3 ou Demo-4
-    Contexte Entreprise
-      Budget IT
-        Demo-0
-      Contrôle Total
-        Demo-4
-      Conformité
-        Demo-4
-    Contexte Apprentissage
-      Premier Projet
-        Demo-1
-      Relations DB
-        Demo-2
-      Architecture Complète
-        Demo-4
-    Contexte Open-Source
-      Pas de Coût
-        Demo-3 ou Demo-4
-      Communauté
-        Demo-3 ou Demo-4
-      Transparence
-        Demo-3 ou Demo-4
+graph TB
+    ROOT[Choix Architecture]
+    
+    subgraph "Contexte Startup"
+        S1[MVP Rapide → Demo-1]
+        S2[Validation Marché → Demo-1]
+        S3[Croissance Prévue → Demo-3 ou Demo-4]
+    end
+    
+    subgraph "Contexte Entreprise"
+        E1[Budget IT → Demo-0]
+        E2[Contrôle Total → Demo-4]
+        E3[Conformité → Demo-4]
+    end
+    
+    subgraph "Contexte Apprentissage"
+        A1[Premier Projet → Demo-1]
+        A2[Relations DB → Demo-2]
+        A3[Architecture Complète → Demo-4]
+    end
+    
+    subgraph "Contexte Open-Source"
+        O1[Pas de Coût → Demo-3 ou Demo-4]
+        O2[Communauté → Demo-3 ou Demo-4]
+        O3[Transparence → Demo-3 ou Demo-4]
+    end
+    
+    ROOT --> S1
+    ROOT --> S2
+    ROOT --> S3
+    ROOT --> E1
+    ROOT --> E2
+    ROOT --> E3
+    ROOT --> A1
+    ROOT --> A2
+    ROOT --> A3
+    ROOT --> O1
+    ROOT --> O2
+    ROOT --> O3
+    
+    style ROOT fill:#90caf9,color:#000
+    style S1 fill:#66bb6a,color:#000
+    style S2 fill:#66bb6a,color:#000
+    style S3 fill:#ce93d8,color:#000
+    style E1 fill:#81d4fa,color:#000
+    style E2 fill:#ce93d8,color:#000
+    style E3 fill:#ce93d8,color:#000
+    style A1 fill:#66bb6a,color:#000
+    style A2 fill:#ffa726,color:#000
+    style A3 fill:#ce93d8,color:#000
+    style O1 fill:#ce93d8,color:#000
+    style O2 fill:#ce93d8,color:#000
+    style O3 fill:#ce93d8,color:#000
 ```
 
 ---
@@ -1233,33 +1256,62 @@ graph TB
 ### Les 5 projets en un coup d'oeil
 
 ```mermaid
-mindmap
-  root((5 Architectures<br/>Next.js Auth))
-    Demo-0
-      Clerk Webhook
-      Temps réel
-      Event-driven
-      Production ready
-    Demo-1
-      Clerk Upsert
-      Simple
-      MVP rapide
-      Débutant friendly
-    Demo-2
-      Clerk Relations
-      Apprentissage
-      1:N relations
-      LMS exemple
-    Demo-3
-      NextAuth Basic
-      Gratuit
-      Contrôle total
-      Open-source
-    Demo-4
-      NextAuth Relations
-      Architecture complète
-      Production ready
-      CRUD complet
+graph LR
+    ROOT[5 Architectures<br/>Next.js Auth]
+    
+    D0[Demo-0<br/>Clerk Webhook]
+    D1[Demo-1<br/>Clerk Upsert]
+    D2[Demo-2<br/>Clerk Relations]
+    D3[Demo-3<br/>NextAuth Basic]
+    D4[Demo-4<br/>NextAuth Relations]
+    
+    ROOT --> D0
+    ROOT --> D1
+    ROOT --> D2
+    ROOT --> D3
+    ROOT --> D4
+    
+    D0 --> D0A[Temps réel]
+    D0 --> D0B[Event-driven]
+    D0 --> D0C[Production ready]
+    
+    D1 --> D1A[Simple]
+    D1 --> D1B[MVP rapide]
+    D1 --> D1C[Débutant friendly]
+    
+    D2 --> D2A[Apprentissage]
+    D2 --> D2B[Relations 1:N]
+    D2 --> D2C[LMS exemple]
+    
+    D3 --> D3A[Gratuit]
+    D3 --> D3B[Contrôle total]
+    D3 --> D3C[Open-source]
+    
+    D4 --> D4A[Architecture complète]
+    D4 --> D4B[Production ready]
+    D4 --> D4C[CRUD complet]
+    
+    style ROOT fill:#90caf9,color:#000
+    style D0 fill:#81d4fa,color:#000
+    style D1 fill:#66bb6a,color:#000
+    style D2 fill:#ffa726,color:#000
+    style D3 fill:#ce93d8,color:#000
+    style D4 fill:#f48fb1,color:#000
+    style D0A fill:#b3e5fc,color:#000
+    style D0B fill:#b3e5fc,color:#000
+    style D0C fill:#b3e5fc,color:#000
+    style D1A fill:#a5d6a7,color:#000
+    style D1B fill:#a5d6a7,color:#000
+    style D1C fill:#a5d6a7,color:#000
+    style D2A fill:#ffcc80,color:#000
+    style D2B fill:#ffcc80,color:#000
+    style D2C fill:#ffcc80,color:#000
+    style D3A fill:#e1bee7,color:#000
+    style D3B fill:#e1bee7,color:#000
+    style D3C fill:#e1bee7,color:#000
+    style D4A fill:#f8bbd0,color:#000
+    style D4B fill:#f8bbd0,color:#000
+    style D4C fill:#f8bbd0,color:#000
 ```
 
 ---
