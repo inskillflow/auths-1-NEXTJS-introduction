@@ -612,25 +612,39 @@ erDiagram
 ### Flux JWT vs Database Session
 
 ```mermaid
-graph TB
-    subgraph "JWT Strategy (Default)"
-        A1[User Login] --> B1[Create JWT]
-        B1 --> C1[Sign with SECRET]
-        C1 --> D1[Send to Client]
-        D1 --> E1[Store in Cookie]
-        E1 --> F1[Decode JWT on each request]
-    end
+graph TD
+    START[User Login]
     
-    subgraph "Database Strategy"
-        A2[User Login] --> B2[Create Session in DB]
-        B2 --> C2[Generate sessionToken]
-        C2 --> D2[Send to Client]
-        D2 --> E2[Store in Cookie]
-        E2 --> F2[Query DB on each request]
-    end
+    START --> JWT_TITLE[JWT Strategy Default - Rapide]
+    START --> DB_TITLE[Database Strategy - Révocation immédiate]
     
-    style F1 fill:#81c784,color:#000
-    style F2 fill:#ffd54f,color:#000
+    JWT_TITLE --> A1[Create JWT]
+    A1 --> B1[Sign with SECRET]
+    B1 --> C1[Send to Client]
+    C1 --> D1[Store in Cookie]
+    D1 --> E1[Decode JWT on each request]
+    
+    DB_TITLE --> A2[Create Session in DB]
+    A2 --> B2[Generate sessionToken]
+    B2 --> C2[Send to Client]
+    C2 --> D2[Store in Cookie]
+    D2 --> E2[Query DB on each request]
+    
+    style START fill:#90caf9,color:#000
+    style JWT_TITLE fill:#81d4fa,color:#000
+    style DB_TITLE fill:#ffd54f,color:#000
+    
+    style A1 fill:#b3e5fc,color:#000
+    style B1 fill:#b3e5fc,color:#000
+    style C1 fill:#b3e5fc,color:#000
+    style D1 fill:#b3e5fc,color:#000
+    style E1 fill:#81c784,color:#000
+    
+    style A2 fill:#fff9c4,color:#000
+    style B2 fill:#fff9c4,color:#000
+    style C2 fill:#fff9c4,color:#000
+    style D2 fill:#fff9c4,color:#000
+    style E2 fill:#ffa726,color:#000
 ```
 
 ---
@@ -1264,37 +1278,43 @@ graph TB
 ### Les 5 projets en un coup d'oeil
 
 ```mermaid
-graph TB
-    ROOT[5 Architectures<br/>Next.js Auth]
+graph TD
+    ROOT[5 Architectures Next.js Auth]
     
-    D0[Demo-0<br/>Clerk Webhook]
-    D1[Demo-1<br/>Clerk Upsert]
-    D2[Demo-2<br/>Clerk Relations]
-    D3[Demo-3<br/>NextAuth Basic]
-    D4[Demo-4<br/>NextAuth Relations]
-    
-    ROOT --> D0
-    ROOT --> D1
-    ROOT --> D2
-    ROOT --> D3
-    ROOT --> D4
-    
+    ROOT --> SEP0[ ]
+    SEP0 --> D0[Demo-0: Clerk Webhook]
     D0 --> D0A[Temps réel]
     D0 --> D0B[Event-driven]
     D0 --> D0C[Production ready]
     
+    D0A --> SEP1[ ]
+    D0B --> SEP1
+    D0C --> SEP1
+    SEP1 --> D1[Demo-1: Clerk Upsert]
     D1 --> D1A[Simple]
     D1 --> D1B[MVP rapide]
     D1 --> D1C[Débutant friendly]
     
+    D1A --> SEP2[ ]
+    D1B --> SEP2
+    D1C --> SEP2
+    SEP2 --> D2[Demo-2: Clerk Relations]
     D2 --> D2A[Apprentissage]
     D2 --> D2B[Relations 1:N]
     D2 --> D2C[LMS exemple]
     
+    D2A --> SEP3[ ]
+    D2B --> SEP3
+    D2C --> SEP3
+    SEP3 --> D3[Demo-3: NextAuth Basic]
     D3 --> D3A[Gratuit]
     D3 --> D3B[Contrôle total]
     D3 --> D3C[Open-source]
     
+    D3A --> SEP4[ ]
+    D3B --> SEP4
+    D3C --> SEP4
+    SEP4 --> D4[Demo-4: NextAuth Relations]
     D4 --> D4A[Architecture complète]
     D4 --> D4B[Production ready]
     D4 --> D4C[CRUD complet]
@@ -1320,6 +1340,11 @@ graph TB
     style D4A fill:#f8bbd0,color:#000
     style D4B fill:#f8bbd0,color:#000
     style D4C fill:#f8bbd0,color:#000
+    style SEP0 fill:#ffffff,stroke:none,color:#fff
+    style SEP1 fill:#ffffff,stroke:none,color:#fff
+    style SEP2 fill:#ffffff,stroke:none,color:#fff
+    style SEP3 fill:#ffffff,stroke:none,color:#fff
+    style SEP4 fill:#ffffff,stroke:none,color:#fff
 ```
 
 ---
