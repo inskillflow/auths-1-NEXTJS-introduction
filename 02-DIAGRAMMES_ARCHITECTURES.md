@@ -105,7 +105,7 @@ graph TB
     end
     
     subgraph "Application Server"
-        ROUTE[/api/webhooks/clerk]
+        ROUTE["API Route<br/>/api/webhooks/clerk"]
         SVIX[Svix Verification]
         HANDLER[Event Handler]
         PRISMA[Prisma Client]
