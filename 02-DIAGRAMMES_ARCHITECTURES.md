@@ -1111,59 +1111,66 @@ graph TB
 ### Recommandations par contexte
 
 ```mermaid
-graph TB
+graph TD
     ROOT[Choix Architecture]
     
-    subgraph "Contexte Startup"
-        S1[MVP Rapide → Demo-1]
-        S2[Validation Marché → Demo-1]
-        S3[Croissance Prévue → Demo-3 ou Demo-4]
-    end
+    ROOT --> STARTUP[Contexte Startup]
+    STARTUP --> S1[MVP Rapide → Demo-1]
+    STARTUP --> S2[Validation Marché → Demo-1]
+    STARTUP --> S3[Croissance Prévue → Demo-3 ou Demo-4]
     
-    subgraph "Contexte Entreprise"
-        E1[Budget IT → Demo-0]
-        E2[Contrôle Total → Demo-4]
-        E3[Conformité → Demo-4]
-    end
+    S1 --> SEP1[ ]
+    S2 --> SEP1
+    S3 --> SEP1
     
-    subgraph "Contexte Apprentissage"
-        A1[Premier Projet → Demo-1]
-        A2[Relations DB → Demo-2]
-        A3[Architecture Complète → Demo-4]
-    end
+    SEP1 --> ENTREPRISE[Contexte Entreprise]
+    ENTREPRISE --> E1[Budget IT → Demo-0]
+    ENTREPRISE --> E2[Contrôle Total → Demo-4]
+    ENTREPRISE --> E3[Conformité → Demo-4]
     
-    subgraph "Contexte Open-Source"
-        O1[Pas de Coût → Demo-3 ou Demo-4]
-        O2[Communauté → Demo-3 ou Demo-4]
-        O3[Transparence → Demo-3 ou Demo-4]
-    end
+    E1 --> SEP2[ ]
+    E2 --> SEP2
+    E3 --> SEP2
     
-    ROOT --> S1
-    ROOT --> S2
-    ROOT --> S3
-    ROOT --> E1
-    ROOT --> E2
-    ROOT --> E3
-    ROOT --> A1
-    ROOT --> A2
-    ROOT --> A3
-    ROOT --> O1
-    ROOT --> O2
-    ROOT --> O3
+    SEP2 --> APPRENTISSAGE[Contexte Apprentissage]
+    APPRENTISSAGE --> A1[Premier Projet → Demo-1]
+    APPRENTISSAGE --> A2[Relations DB → Demo-2]
+    APPRENTISSAGE --> A3[Architecture Complète → Demo-4]
+    
+    A1 --> SEP3[ ]
+    A2 --> SEP3
+    A3 --> SEP3
+    
+    SEP3 --> OPENSOURCE[Contexte Open-Source]
+    OPENSOURCE --> O1[Pas de Coût → Demo-3 ou Demo-4]
+    OPENSOURCE --> O2[Communauté → Demo-3 ou Demo-4]
+    OPENSOURCE --> O3[Transparence → Demo-3 ou Demo-4]
     
     style ROOT fill:#90caf9,color:#000
+    
+    style STARTUP fill:#c8e6c9,color:#000
     style S1 fill:#66bb6a,color:#000
     style S2 fill:#66bb6a,color:#000
     style S3 fill:#ce93d8,color:#000
+    
+    style ENTREPRISE fill:#b3e5fc,color:#000
     style E1 fill:#81d4fa,color:#000
     style E2 fill:#ce93d8,color:#000
     style E3 fill:#ce93d8,color:#000
+    
+    style APPRENTISSAGE fill:#ffe0b2,color:#000
     style A1 fill:#66bb6a,color:#000
     style A2 fill:#ffa726,color:#000
     style A3 fill:#ce93d8,color:#000
+    
+    style OPENSOURCE fill:#e1bee7,color:#000
     style O1 fill:#ce93d8,color:#000
     style O2 fill:#ce93d8,color:#000
     style O3 fill:#ce93d8,color:#000
+    
+    style SEP1 fill:#ffffff,stroke:none,color:#fff
+    style SEP2 fill:#ffffff,stroke:none,color:#fff
+    style SEP3 fill:#ffffff,stroke:none,color:#fff
 ```
 
 ---
