@@ -79,11 +79,11 @@ graph LR
     Q4 -->|Simple| DEMO1[Demo-1: Clerk Upsert]
     Q4 -->|Complexe| DEMO2[Demo-2: Clerk Relations]
     
-    style DEMO0 fill:#81d4fa
-    style DEMO1 fill:#66bb6a
-    style DEMO2 fill:#ffa726
-    style DEMO3 fill:#ce93d8
-    style DEMO4 fill:#f48fb1
+    style DEMO0 fill:#81d4fa,color:#000
+    style DEMO1 fill:#66bb6a,color:#000
+    style DEMO2 fill:#ffa726,color:#000
+    style DEMO3 fill:#ce93d8,color:#000
+    style DEMO4 fill:#f48fb1,color:#000
 ```
 
 ---
@@ -293,8 +293,8 @@ graph LR
     I --> J
     J --> K[Render Page]
     
-    style D fill:#ef9a9a
-    style J fill:#81c784
+    style D fill:#ef9a9a,color:#000
+    style J fill:#81c784,color:#000
 ```
 
 ---
@@ -428,9 +428,9 @@ graph TB
         B2 -.->|Même valeur| B2
     end
     
-    style B1 fill:#90caf9
-    style C1 fill:#90caf9
-    style B2 fill:#ce93d8
+    style B1 fill:#90caf9,color:#000
+    style C1 fill:#90caf9,color:#000
+    style B2 fill:#ce93d8,color:#000
 ```
 
 ---
@@ -621,8 +621,8 @@ graph TB
         E2 --> F2[Query DB on each request]
     end
     
-    style F1 fill:#81c784
-    style F2 fill:#ffd54f
+    style F1 fill:#81c784,color:#000
+    style F2 fill:#ffd54f,color:#000
 ```
 
 ---
@@ -853,11 +853,11 @@ graph LR
         D4["Demo-4<br/>< 200ms<br/>(auto)"]
     end
     
-    style D0 fill:#ffd54f
-    style D1 fill:#66bb6a
-    style D2 fill:#ffa726
-    style D3 fill:#81c784
-    style D4 fill:#66bb6a
+    style D0 fill:#ffd54f,color:#000
+    style D1 fill:#66bb6a,color:#000
+    style D2 fill:#ffa726,color:#000
+    style D3 fill:#81c784,color:#000
+    style D4 fill:#66bb6a,color:#000
 ```
 
 ### Complexité de setup
@@ -876,11 +876,11 @@ graph TB
     D3 --> E3[Complexe]
     D4 --> E4[Très Complexe]
     
-    style E1 fill:#66bb6a
-    style E0 fill:#ffd54f
-    style E2 fill:#ffd54f
-    style E3 fill:#ffab91
-    style E4 fill:#ef9a9a
+    style E1 fill:#66bb6a,color:#000
+    style E0 fill:#ffd54f,color:#000
+    style E2 fill:#ffd54f,color:#000
+    style E3 fill:#ffab91,color:#000
+    style E4 fill:#ef9a9a,color:#000
 ```
 
 ### Tables de base de données
@@ -900,11 +900,11 @@ graph TB
     T2 -.-> T3
     T3 -.-> T4
     
-    style T0 fill:#66bb6a
-    style T1 fill:#66bb6a
-    style T2 fill:#ffa726
-    style T3 fill:#ce93d8
-    style T4 fill:#f48fb1
+    style T0 fill:#66bb6a,color:#000
+    style T1 fill:#66bb6a,color:#000
+    style T2 fill:#ffa726,color:#000
+    style T3 fill:#ce93d8,color:#000
+    style T4 fill:#f48fb1,color:#000
 ```
 
 ### Coût par nombre d'utilisateurs
@@ -926,11 +926,11 @@ graph TD
     C2 --> C3
     C3 --> C4
     
-    style C1 fill:#66bb6a
-    style C2 fill:#ffd54f
-    style C3 fill:#ffab91
-    style C4 fill:#ef9a9a
-    style N1 fill:#81c784
+    style C1 fill:#66bb6a,color:#000
+    style C2 fill:#ffd54f,color:#000
+    style C3 fill:#ffab91,color:#000
+    style C4 fill:#ef9a9a,color:#000
+    style N1 fill:#81c784,color:#000
 ```
 
 ### Patterns de synchronisation
@@ -957,9 +957,9 @@ graph TB
         A3 --> A4[DB]
     end
     
-    style W5 fill:#81d4fa
-    style U5 fill:#ce93d8
-    style A4 fill:#ffa726
+    style W5 fill:#81d4fa,color:#000
+    style U5 fill:#ce93d8,color:#000
+    style A4 fill:#ffa726,color:#000
 ```
 
 ---
@@ -979,8 +979,8 @@ graph TD
     STEP6 --> STEP7[Remove syncUser calls]
     STEP7 --> END[Demo-0 Production]
     
-    style START fill:#66bb6a
-    style END fill:#81d4fa
+    style START fill:#66bb6a,color:#000
+    style END fill:#81d4fa,color:#000
 ```
 
 ### De Clerk vers NextAuth
@@ -1002,9 +1002,9 @@ graph TD
     MONITOR --> CLEANUP[Remove Clerk]
     CLEANUP --> END[NextAuth Project]
     
-    style START fill:#90caf9
-    style DUAL fill:#ffd54f
-    style END fill:#ce93d8
+    style START fill:#90caf9,color:#000
+    style DUAL fill:#ffd54f,color:#000
+    style END fill:#ce93d8,color:#000
 ```
 
 ### Progression pédagogique recommandée
@@ -1020,12 +1020,12 @@ graph LR
     
     D3 --> D4[Demo-4<br/>NextAuth Pro]
     
-    style START fill:#66bb6a
-    style D1 fill:#66bb6a
-    style D2 fill:#81c784
-    style D0 fill:#66bb6a
-    style D3 fill:#66bb6a
-    style D4 fill:#4caf50
+    style START fill:#66bb6a,color:#000
+    style D1 fill:#66bb6a,color:#000
+    style D2 fill:#81c784,color:#000
+    style D0 fill:#66bb6a,color:#000
+    style D3 fill:#66bb6a,color:#000
+    style D4 fill:#4caf50,color:#000
 ```
 
 ### Migration de schéma : ID séparé vers ID direct
@@ -1048,9 +1048,9 @@ graph TB
     MODIFY --> PUSH[prisma db push]
     PUSH --> END
     
-    style COMPLEX fill:#ffab91
-    style SIMPLE fill:#66bb6a
-    style END fill:#81c784
+    style COMPLEX fill:#ffab91,color:#000
+    style SIMPLE fill:#66bb6a,color:#000
+    style END fill:#81c784,color:#000
 ```
 
 ---
@@ -1079,11 +1079,11 @@ graph TB
     Q5 -->|Non| D3[Demo-3<br/>NextAuth Basic]
     Q5 -->|Oui| D4[Demo-4<br/>NextAuth Relations]
     
-    style D0 fill:#90caf9
-    style D1 fill:#66bb6a
-    style D2 fill:#ffa726
-    style D3 fill:#ce93d8
-    style D4 fill:#f48fb1
+    style D0 fill:#90caf9,color:#000
+    style D1 fill:#66bb6a,color:#000
+    style D2 fill:#ffa726,color:#000
+    style D3 fill:#ce93d8,color:#000
+    style D4 fill:#f48fb1,color:#000
 ```
 
 ### Recommandations par contexte
@@ -1164,11 +1164,11 @@ graph LR
         O4["Demo-4<br/>1-4 ops<br/>(Relations)"]
     end
     
-    style O0 fill:#81c784
-    style O1 fill:#ffd54f
-    style O2 fill:#ffab91
-    style O3 fill:#81c784
-    style O4 fill:#ffab91
+    style O0 fill:#81c784,color:#000
+    style O1 fill:#ffd54f,color:#000
+    style O2 fill:#ffab91,color:#000
+    style O3 fill:#81c784,color:#000
+    style O4 fill:#ffab91,color:#000
 ```
 
 ---
@@ -1187,11 +1187,11 @@ graph TB
         S4["Demo-4<br/>NextAuth DIY<br/>Score: 7/10"]
     end
     
-    style S0 fill:#81c784
-    style S1 fill:#66bb6a
-    style S2 fill:#66bb6a
-    style S3 fill:#ffd54f
-    style S4 fill:#ffd54f
+    style S0 fill:#81c784,color:#000
+    style S1 fill:#66bb6a,color:#000
+    style S2 fill:#66bb6a,color:#000
+    style S3 fill:#ffd54f,color:#000
+    style S4 fill:#ffd54f,color:#000
 ```
 
 ### Checklist de sécurité par projet
@@ -1214,16 +1214,16 @@ graph TB
         N6[Monitoring custom]
     end
     
-    style C1 fill:#66bb6a
-    style C2 fill:#66bb6a
-    style C3 fill:#66bb6a
-    style C4 fill:#66bb6a
-    style N1 fill:#ffd54f
-    style N2 fill:#ffd54f
-    style N3 fill:#ffd54f
-    style N4 fill:#ffd54f
-    style N5 fill:#ffd54f
-    style N6 fill:#ffd54f
+    style C1 fill:#66bb6a,color:#000
+    style C2 fill:#66bb6a,color:#000
+    style C3 fill:#66bb6a,color:#000
+    style C4 fill:#66bb6a,color:#000
+    style N1 fill:#ffd54f,color:#000
+    style N2 fill:#ffd54f,color:#000
+    style N3 fill:#ffd54f,color:#000
+    style N4 fill:#ffd54f,color:#000
+    style N5 fill:#ffd54f,color:#000
+    style N6 fill:#ffd54f,color:#000
 ```
 
 ---
