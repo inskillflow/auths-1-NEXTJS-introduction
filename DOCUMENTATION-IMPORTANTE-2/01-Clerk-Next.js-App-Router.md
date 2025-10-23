@@ -308,3 +308,57 @@ R: Source de vérité en base (champ `role`). Côté serveur, vérifiez le rôle
 R: Optionnel. L’ID Clerk (`clerkId`) doit être unique. L’email peut changer ; gérez le `@unique` selon votre besoin.
 
 
+
+
+
+# Diagramme
+
+```mermaid
+flowchart TD
+  A[Utilisateur] --> B[/sign-in (Clerk UI)/]
+  A --> C[/sign-up (Clerk UI)/]
+
+  subgraph AuthPages[Routes d'auth (catch-all)]
+    direction TB
+    B -->|afterSignInUrl=/welcome| D[/welcome (Server Component)/]
+    C -->|afterSignUpUrl=/welcome| D
+  end
+
+  subgraph Middleware[Middleware Clerk]
+    direction TB
+    M1[/Public: "/", "/welcome", "/sign-in(.*)", "/sign-up(.*)", "/register(.*)"/]
+    M2[/Privé: toutes les autres routes → protect()/]
+  end
+
+  D --> E[syncUser() — util serveur]
+  E --> F[(Prisma DB upsert<br/>where: { clerkId }, create/update)]
+  F --> G{{redirect("/members")}}
+
+  subgraph Members[Espace privé]
+    direction TB
+    G --> H[/members/]
+    H --> I[Pages protégées…]
+  end
+```
+
+```mermaid
+sequenceDiagram
+  participant U as Utilisateur
+  participant UI as Clerk UI (sign-in/up)
+  participant S as Next.js Server (/welcome)
+  participant SU as syncUser() (server-only)
+  participant DB as Prisma DB
+  participant R as redirect("/members")
+
+  U->>UI: Se connecte / s'inscrit
+  UI-->>S: afterSignIn/SignUpUrl = /welcome
+  S->>S: auth() (valider userId)
+  S->>SU: await syncUser()
+  SU->>DB: upsert(User { clerkId, ... })
+  DB-->>SU: ok (créé ou mis à jour)
+  SU-->>S: terminé
+  S->>R: redirect("/members")
+  R-->>U: Arrive sur l'espace privé
+```
+
+
