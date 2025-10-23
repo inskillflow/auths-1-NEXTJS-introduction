@@ -1,0 +1,129 @@
+// Demo 4 : NextAuth + Entités enrichies (User + Course)
+// Architecture complète avec relations
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// TABLES NEXTAUTH (OBLIGATOIRES)
+// ============================================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============================================
+// TABLE USER ENRICHIE (NextAuth + Champs personnalisés)
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  hashedPassword String?  // Pour l'authentification par credentials
+  
+  // ============================================
+  // CHAMPS PERSONNALISÉS (comme Demo-2)
+  // ============================================
+  role          String    @default("user")      // user | instructor | admin
+  bio           String?   @db.Text              // Biographie de l'utilisateur
+  phoneNumber   String?                         // Numéro de téléphone
+  website       String?                         // Site web personnel
+  
+  // Relations NextAuth (obligatoires)
+  accounts      Account[]
+  sessions      Session[]
+  
+  // Relations métier (personnalisées)
+  courses       Course[]  @relation("InstructorCourses")
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// ============================================
+// TABLE COURSE (Cours en ligne)
+// ============================================
+
+model Course {
+  id           String   @id @default(cuid())
+  title        String                         // Titre du cours
+  description  String?  @db.Text              // Description détaillée
+  category     String                         // Catégorie (programming, design, business, etc.)
+  level        String   @default("beginner")  // beginner | intermediate | advanced
+  price        Decimal  @default(0) @db.Decimal(10, 2) // Prix en euros (0 = gratuit)
+  published    Boolean  @default(false)       // Publié ou brouillon
+  imageUrl     String?                        // Image du cours (optionnel)
+  
+  // Relation vers User
+  instructorId String                         // ID de l'instructeur
+  instructor   User     @relation("InstructorCourses", fields: [instructorId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Indexes pour performance
+  @@index([instructorId])
+  @@index([category])
+  @@index([published])
+  @@index([level])
+  @@map("courses")
+}
+
+// ============================================
+// NOTES IMPORTANTES
+// ============================================
+// 1. Tables NextAuth (Account, Session, VerificationToken) = OBLIGATOIRES
+// 2. User : Combine champs NextAuth + champs personnalisés (role, bio, etc.)
+// 3. Course : Table métier avec relation vers User
+// 4. Relation 1-N : Un utilisateur peut créer plusieurs cours
+// 5. onDelete: Cascade = supprimer l'utilisateur supprime ses cours
+// 6. Indexes sur les colonnes fréquemment utilisées dans WHERE/JOIN
+// 7. @db.Text pour les champs longs (description, bio)
+// 8. @db.Decimal(10, 2) pour les prix (ex: 99.99)
+

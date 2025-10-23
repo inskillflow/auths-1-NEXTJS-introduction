@@ -1,0 +1,60 @@
+// Demo 2 : Schéma avec ID = ClerkId et relations
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Table User avec attributs enrichis
+model User {
+  id          String   @id                   // = clerkUser.id directement (ex: "user_2abc...")
+  email       String   @unique
+  firstName   String?
+  lastName    String?
+  imageUrl    String?
+  role        String   @default("user")      // user | instructor | admin
+  bio         String?                         // Biographie de l'utilisateur
+  phoneNumber String?                         // Numéro de téléphone
+  website     String?                         // Site web personnel
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  courses     Course[] @relation("InstructorCourses") // Cours créés par cet utilisateur
+
+  @@map("users")
+}
+
+// Table Course (cours en ligne)
+model Course {
+  id           String   @id @default(cuid())
+  title        String                         // Titre du cours
+  description  String?  @db.Text              // Description détaillée
+  category     String                         // Catégorie (programming, design, business, etc.)
+  level        String   @default("beginner")  // beginner | intermediate | advanced
+  price        Decimal  @default(0) @db.Decimal(10, 2) // Prix en euros (0 = gratuit)
+  published    Boolean  @default(false)       // Publié ou brouillon
+  
+  instructorId String                         // ID de l'instructeur
+  instructor   User     @relation("InstructorCourses", fields: [instructorId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([instructorId])
+  @@index([category])
+  @@index([published])
+  @@map("courses")
+}
+
+// NOTES :
+// 1. User.id est une String longue comme "user_2abcdefghijklmnop" (ID Clerk)
+// 2. Pas de @default sur User.id car on le fournit manuellement
+// 3. Course.id utilise cuid() pour des IDs courts
+// 4. Relation : Un utilisateur peut créer plusieurs cours
+// 5. onDelete: Cascade = supprimer l'utilisateur supprime ses cours
+

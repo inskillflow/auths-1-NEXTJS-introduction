@@ -1,0 +1,27 @@
+{
+  "name": "demo-0-clerk-webhook",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 2999",
+    "build": "next build",
+    "start": "next start -p 2999",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@clerk/nextjs": "^4.29.0",
+    "@prisma/client": "^5.7.0",
+    "svix": "^1.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "prisma": "^5.7.0",
+    "typescript": "^5"
+  }
+}
+

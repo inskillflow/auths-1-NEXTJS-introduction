@@ -1,0 +1,30 @@
+// APPROCHE ALTERNATIVE : ID = ClerkId directement
+// Plus simple mais plus couplé à Clerk
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id                     // = clerkUser.id directement (ex: "user_2abc...")
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  imageUrl  String?
+  role      String   @default("user")        // Optionnel: gestion des rôles
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// IMPORTANT : 
+// - Ne PAS mettre @default(cuid()) sur id
+// - L'ID sera fourni manuellement depuis clerkUser.id
+// - C'est une String longue comme "user_2abcdefghijklmnop"
+
