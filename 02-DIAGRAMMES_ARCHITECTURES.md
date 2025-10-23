@@ -73,7 +73,7 @@ graph TB
 ### Matrice de décision
 
 ```mermaid
-graph LR
+graph TB
     START[Nouveau Projet] --> Q1{Budget limité?}
     Q1 -->|Oui| Q2{Besoin relations?}
     Q1 -->|Non| Q3{Besoin temps réel?}
@@ -288,7 +288,7 @@ erDiagram
 ### Flux de chargement page
 
 ```mermaid
-graph LR
+graph TB
     A[Page Load] --> B[syncUser]
     B --> C{User in Clerk?}
     C -->|No| D[Return null]
@@ -852,7 +852,7 @@ graph TB
 ### Temps de synchronisation
 
 ```mermaid
-graph LR
+graph TB
     subgraph "Temps de sync (ms)"
         D0["Demo-0<br/>500-1000ms<br/>(async)"]
         D1["Demo-1<br/>50-200ms<br/>(sync)"]
@@ -1018,7 +1018,7 @@ graph TD
 ### Progression pédagogique recommandée
 
 ```mermaid
-graph LR
+graph TB
     START[Débutant] --> D1[Demo-1<br/>Basics]
     D1 --> D2[Demo-2<br/>Relations]
     D2 --> CHOICE{Choix}
@@ -1186,7 +1186,7 @@ gantt
 ### Opérations de base de données par requête
 
 ```mermaid
-graph LR
+graph TB
     subgraph "Operations par requête"
         O0["Demo-0<br/>0-1 ops<br/>(Select)"]
         O1["Demo-1<br/>1-2 ops<br/>(Upsert)"]
@@ -1264,7 +1264,7 @@ graph TB
 ### Les 5 projets en un coup d'oeil
 
 ```mermaid
-graph LR
+graph TB
     ROOT[5 Architectures<br/>Next.js Auth]
     
     D0[Demo-0<br/>Clerk Webhook]
