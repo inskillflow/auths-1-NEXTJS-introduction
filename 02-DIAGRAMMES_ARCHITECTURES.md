@@ -23,7 +23,7 @@ Documentation visuelle des architectures avec diagrammes Mermaid.
 
 ```mermaid
 graph TB
-    subgraph "Demo-0: Clerk Webhook"
+    subgraph S0["Demo-0: Clerk Webhook"]
         A0[Utilisateur] --> B0[Clerk Auth]
         B0 --> C0[Webhook Event]
         C0 --> D0[API Route]
@@ -31,7 +31,9 @@ graph TB
         E0 --> F0[(Supabase)]
     end
     
-    subgraph "Demo-1: Clerk Upsert"
+    S0 -.-> S1
+    
+    subgraph S1["Demo-1: Clerk Upsert"]
         A1[Utilisateur] --> B1[Clerk Auth]
         A1 --> C1[Page Load]
         C1 --> D1[syncUser]
@@ -39,7 +41,9 @@ graph TB
         E1 --> F1[(Supabase)]
     end
     
-    subgraph "Demo-2: Clerk Relations"
+    S1 -.-> S2
+    
+    subgraph S2["Demo-2: Clerk Relations"]
         A2[Utilisateur] --> B2[Clerk Auth]
         A2 --> C2[Page Load]
         C2 --> D2[syncUser + Relations]
@@ -47,14 +51,18 @@ graph TB
         E2 --> F2[(Supabase)]
     end
     
-    subgraph "Demo-3: NextAuth Basic"
+    S2 -.-> S3
+    
+    subgraph S3["Demo-3: NextAuth Basic"]
         A3[Utilisateur] --> B3[NextAuth]
         B3 --> C3[PrismaAdapter]
         C3 --> D3[Auto Sync]
         D3 --> E3[(Supabase)]
     end
     
-    subgraph "Demo-4: NextAuth Relations"
+    S3 -.-> S4
+    
+    subgraph S4["Demo-4: NextAuth Relations"]
         A4[Utilisateur] --> B4[NextAuth]
         B4 --> C4[PrismaAdapter]
         C4 --> D4[Auto Sync + Relations]
