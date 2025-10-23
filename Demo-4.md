@@ -146,6 +146,155 @@ GITHUB_SECRET (optionnel)
 
 ---
 
+## Annexe : Diagramme d'architecture
+
+### Architecture complète Demo-4
+
+```mermaid
+graph TD
+    USER[Utilisateur] --> LOGIN[Login Page]
+    
+    LOGIN --> PROVIDERS{Choose Provider}
+    PROVIDERS -->|Google| GOOGLE[Google OAuth]
+    PROVIDERS -->|GitHub| GITHUB[GitHub OAuth]
+    PROVIDERS -->|Credentials| CRED[Email/Password]
+    
+    GOOGLE --> NEXTAUTH[NextAuth API]
+    GITHUB --> NEXTAUTH
+    CRED --> NEXTAUTH
+    
+    NEXTAUTH --> ADAPTER[PrismaAdapter]
+    
+    ADAPTER --> AUTO_CREATE{New User?}
+    AUTO_CREATE -->|Yes| CREATE_USER[Create User]
+    AUTO_CREATE -->|No| UPDATE_USER[Update User]
+    
+    CREATE_USER --> EVENTS[signIn Event]
+    UPDATE_USER --> LINK[Link Account]
+    
+    EVENTS --> SEED[Create Sample Courses]
+    
+    SEED --> DB[(Supabase)]
+    LINK --> DB
+    
+    DB --> SESSION[Create Session/JWT]
+    SESSION --> ACTIONS[Server Actions Available]
+    ACTIONS --> CRUD[CRUD Courses]
+    CRUD --> USER
+    
+    style USER fill:#f8bbd0,color:#000
+    style LOGIN fill:#f48fb1,color:#000
+    style PROVIDERS fill:#fce4ec,color:#000
+    style GOOGLE fill:#81d4fa,color:#000
+    style GITHUB fill:#90caf9,color:#000
+    style CRED fill:#b3e5fc,color:#000
+    style NEXTAUTH fill:#f48fb1,color:#000
+    style ADAPTER fill:#f8bbd0,color:#000
+    style AUTO_CREATE fill:#fce4ec,color:#000
+    style CREATE_USER fill:#a5d6a7,color:#000
+    style UPDATE_USER fill:#81c784,color:#000
+    style EVENTS fill:#fff176,color:#000
+    style SEED fill:#a5d6a7,color:#000
+    style LINK fill:#81c784,color:#000
+    style DB fill:#f48fb1,color:#000
+    style SESSION fill:#f8bbd0,color:#000
+    style ACTIONS fill:#f48fb1,color:#000
+    style CRUD fill:#ffa726,color:#000
+```
+
+### Schéma de base de données avec relations
+
+```mermaid
+erDiagram
+    User ||--o{ Account : has
+    User ||--o{ Session : has
+    User ||--o{ Course : creates
+    
+    User {
+        string id PK "cuid()"
+        string name
+        string email UK
+        datetime emailVerified
+        string image
+        string hashedPassword
+        string role
+        text bio
+        string phoneNumber
+        string website
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    Account {
+        string id PK "cuid()"
+        string userId FK
+        string type
+        string provider
+        string providerAccountId
+        text refresh_token
+        text access_token
+    }
+    
+    Session {
+        string id PK "cuid()"
+        string sessionToken UK
+        string userId FK
+        datetime expires
+    }
+    
+    VerificationToken {
+        string identifier
+        string token UK
+        datetime expires
+    }
+    
+    Course {
+        string id PK "cuid()"
+        string title
+        text description
+        string category
+        string level
+        decimal price
+        boolean published
+        string imageUrl
+        string instructorId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+```
+
+### Flux complet avec seed et CRUD
+
+```mermaid
+sequenceDiagram
+    participant U as Utilisateur
+    participant N as NextAuth
+    participant A as PrismaAdapter
+    participant E as Events
+    participant S as Server Actions
+    participant D as Supabase
+    
+    U->>N: Sign up
+    N->>A: Create user
+    A->>D: INSERT users, accounts, sessions
+    D->>A: Created
+    
+    A->>E: signIn event (isNewUser)
+    E->>D: INSERT sample courses
+    D->>E: Courses created
+    
+    N->>U: Login success
+    
+    Note over U,D: User manage courses via Server Actions
+    
+    U->>S: Create/Update/Delete course
+    S->>D: CRUD operations
+    D->>S: Success
+    S->>U: Refresh UI
+```
+
+---
+
 ## Comparaison technique
 
 ### Synchronisation

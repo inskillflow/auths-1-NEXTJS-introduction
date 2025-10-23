@@ -122,3 +122,108 @@ DATABASE_URL
 - Temps de synchronisation : 100-300ms par page
 - Charge serveur : Moyenne-Élevée (relations)
 - Maintenance : Moyenne
+
+---
+
+## Annexe : Diagramme d'architecture
+
+### Architecture complète Demo-2
+
+```mermaid
+graph TD
+    USER[Utilisateur] --> PAGE[Navigate to Page]
+    PAGE --> SYNC[syncUser Function]
+    
+    SYNC --> CLERK[Clerk API<br/>currentUser]
+    CLERK -->|Return User Data| SYNC
+    
+    SYNC --> UPSERT{Prisma Upsert<br/>with Include}
+    
+    UPSERT --> CHECK[Check ID in DB]
+    CHECK -->|Exists| UPDATE[Update User]
+    CHECK -->|Not Exists| CREATE[Create User + Seed]
+    
+    UPDATE --> COURSES[Query Courses]
+    CREATE --> SEED[Create Sample Courses]
+    
+    SEED --> COURSES
+    COURSES --> DB[(Supabase)]
+    
+    DB --> RETURN[Return User + Courses]
+    RETURN --> RENDER[Render Page]
+    RENDER --> USER
+    
+    style USER fill:#ffcc80,color:#000
+    style PAGE fill:#ffa726,color:#000
+    style SYNC fill:#ffa726,color:#000
+    style CLERK fill:#81d4fa,color:#000
+    style UPSERT fill:#ffcc80,color:#000
+    style CHECK fill:#fff9c4,color:#000
+    style UPDATE fill:#ffcc80,color:#000
+    style CREATE fill:#ffcc80,color:#000
+    style SEED fill:#a5d6a7,color:#000
+    style COURSES fill:#ffcc80,color:#000
+    style DB fill:#ffa726,color:#000
+    style RETURN fill:#ffcc80,color:#000
+    style RENDER fill:#ffa726,color:#000
+```
+
+### Schéma de base de données avec relations
+
+```mermaid
+erDiagram
+    User ||--o{ Course : creates
+    
+    User {
+        string id PK "Clerk ID directly"
+        string email UK
+        string firstName
+        string lastName
+        string imageUrl
+        string role
+        string bio
+        string phoneNumber
+        string website
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    Course {
+        string id PK "cuid()"
+        string title
+        text description
+        string category
+        string level
+        decimal price
+        boolean published
+        string instructorId FK
+        datetime createdAt
+        datetime updatedAt
+    }
+```
+
+### Flux avec relations
+
+```mermaid
+sequenceDiagram
+    participant U as Utilisateur
+    participant P as Page
+    participant S as syncUser
+    participant C as Clerk API
+    participant D as Supabase
+    
+    U->>P: Request page
+    P->>S: Call syncUser()
+    S->>C: currentUser()
+    C->>S: User data
+    
+    alt User exists
+        S->>D: Update user + Query courses
+    else New user
+        S->>D: Create user + Seed courses
+    end
+    
+    D->>S: User + Courses array
+    S->>P: Return enriched user
+    P->>U: Render with data
+```

@@ -101,3 +101,79 @@ DATABASE_URL
 - Temps de synchronisation : 50-200ms par page
 - Charge serveur : Moyenne (à chaque page)
 - Maintenance : Faible
+
+---
+
+## Annexe : Diagramme d'architecture
+
+### Architecture complète Demo-1
+
+```mermaid
+graph TD
+    USER[Utilisateur] --> PAGE[Navigate to Page]
+    PAGE --> SYNC[syncUser Function]
+    
+    SYNC --> CLERK[Clerk API<br/>currentUser]
+    CLERK -->|Return User Data| SYNC
+    
+    SYNC --> UPSERT{Prisma Upsert}
+    
+    UPSERT --> CHECK[Check clerkId in DB]
+    CHECK -->|Exists| UPDATE[Update User]
+    CHECK -->|Not Exists| CREATE[Create User]
+    
+    UPDATE --> DB[(Supabase)]
+    CREATE --> DB
+    
+    DB --> RETURN[Return Synced User]
+    RETURN --> RENDER[Render Page]
+    RENDER --> USER
+    
+    style USER fill:#b3e5fc,color:#000
+    style PAGE fill:#81d4fa,color:#000
+    style SYNC fill:#66bb6a,color:#000
+    style CLERK fill:#81d4fa,color:#000
+    style UPSERT fill:#a5d6a7,color:#000
+    style CHECK fill:#fff9c4,color:#000
+    style UPDATE fill:#81c784,color:#000
+    style CREATE fill:#81c784,color:#000
+    style DB fill:#66bb6a,color:#000
+    style RETURN fill:#a5d6a7,color:#000
+    style RENDER fill:#81d4fa,color:#000
+```
+
+### Schéma de base de données
+
+```mermaid
+erDiagram
+    User {
+        string id PK "cuid()"
+        string clerkId UK "Clerk User ID"
+        string email UK
+        string firstName
+        string lastName
+        string imageUrl
+        datetime createdAt
+        datetime updatedAt
+    }
+```
+
+### Flux de synchronisation
+
+```mermaid
+sequenceDiagram
+    participant U as Utilisateur
+    participant P as Page
+    participant S as syncUser
+    participant C as Clerk API
+    participant D as Supabase
+    
+    U->>P: Request page
+    P->>S: Call syncUser()
+    S->>C: currentUser()
+    C->>S: User data
+    S->>D: Upsert (create or update)
+    D->>S: Synced user
+    S->>P: Return user
+    P->>U: Render with data
+```

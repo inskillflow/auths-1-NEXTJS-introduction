@@ -153,3 +153,126 @@ GITHUB_SECRET (optionnel)
 - Temps de synchronisation : Auto (< 100ms)
 - Charge serveur : Faible (JWT)
 - Maintenance : Moyenne
+
+---
+
+## Annexe : Diagramme d'architecture
+
+### Architecture complète Demo-3
+
+```mermaid
+graph TD
+    USER[Utilisateur] --> LOGIN[Login Page]
+    
+    LOGIN --> PROVIDERS{Choose Provider}
+    PROVIDERS -->|Google| GOOGLE[Google OAuth]
+    PROVIDERS -->|GitHub| GITHUB[GitHub OAuth]
+    PROVIDERS -->|Credentials| CRED[Email/Password]
+    
+    GOOGLE --> NEXTAUTH[NextAuth API]
+    GITHUB --> NEXTAUTH
+    CRED --> NEXTAUTH
+    
+    NEXTAUTH --> ADAPTER[PrismaAdapter]
+    
+    ADAPTER --> AUTO_CREATE{New User?}
+    AUTO_CREATE -->|Yes| CREATE_USER[Create User]
+    AUTO_CREATE -->|No| UPDATE_USER[Update User]
+    
+    CREATE_USER --> CREATE_ACCOUNT[Create Account]
+    UPDATE_USER --> LINK_ACCOUNT[Link Account]
+    
+    CREATE_ACCOUNT --> DB[(Supabase)]
+    LINK_ACCOUNT --> DB
+    
+    DB --> SESSION[Create Session/JWT]
+    SESSION --> CALLBACK[Callbacks]
+    CALLBACK --> USER
+    
+    style USER fill:#e1bee7,color:#000
+    style LOGIN fill:#ce93d8,color:#000
+    style PROVIDERS fill:#f3e5f5,color:#000
+    style GOOGLE fill:#81d4fa,color:#000
+    style GITHUB fill:#90caf9,color:#000
+    style CRED fill:#b3e5fc,color:#000
+    style NEXTAUTH fill:#ce93d8,color:#000
+    style ADAPTER fill:#e1bee7,color:#000
+    style AUTO_CREATE fill:#f3e5f5,color:#000
+    style CREATE_USER fill:#a5d6a7,color:#000
+    style UPDATE_USER fill:#81c784,color:#000
+    style CREATE_ACCOUNT fill:#a5d6a7,color:#000
+    style LINK_ACCOUNT fill:#81c784,color:#000
+    style DB fill:#ce93d8,color:#000
+    style SESSION fill:#e1bee7,color:#000
+    style CALLBACK fill:#ce93d8,color:#000
+```
+
+### Schéma de base de données NextAuth
+
+```mermaid
+erDiagram
+    User ||--o{ Account : has
+    User ||--o{ Session : has
+    
+    User {
+        string id PK "cuid()"
+        string name
+        string email UK
+        datetime emailVerified
+        string image
+        string hashedPassword
+        string role
+        datetime createdAt
+        datetime updatedAt
+    }
+    
+    Account {
+        string id PK "cuid()"
+        string userId FK
+        string type
+        string provider
+        string providerAccountId
+        text refresh_token
+        text access_token
+    }
+    
+    Session {
+        string id PK "cuid()"
+        string sessionToken UK
+        string userId FK
+        datetime expires
+    }
+    
+    VerificationToken {
+        string identifier
+        string token UK
+        datetime expires
+    }
+```
+
+### Flux d'authentification
+
+```mermaid
+sequenceDiagram
+    participant U as Utilisateur
+    participant N as NextAuth
+    participant P as Provider
+    participant A as PrismaAdapter
+    participant D as Supabase
+    
+    U->>N: Sign in
+    N->>P: OAuth flow
+    P->>N: Return profile
+    N->>A: Create/Update user
+    
+    alt New user
+        A->>D: INSERT users, accounts
+    else Existing
+        A->>D: UPDATE users
+    end
+    
+    A->>D: CREATE session
+    D->>A: Session created
+    A->>N: Return session
+    N->>U: Login success + JWT
+```
