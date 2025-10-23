@@ -80,8 +80,8 @@ graph LR
     Q4 -->|Complexe| DEMO2[Demo-2: Clerk Relations]
     
     style DEMO0 fill:#81d4fa
-    style DEMO1 fill:#aed581
-    style DEMO2 fill:#ffcc80
+    style DEMO1 fill:#66bb6a
+    style DEMO2 fill:#ffa726
     style DEMO3 fill:#ce93d8
     style DEMO4 fill:#f48fb1
 ```
@@ -293,8 +293,8 @@ graph LR
     I --> J
     J --> K[Render Page]
     
-    style D fill:#ffcdd2
-    style J fill:#a5d6a7
+    style D fill:#ef9a9a
+    style J fill:#81c784
 ```
 
 ---
@@ -621,8 +621,8 @@ graph TB
         E2 --> F2[Query DB on each request]
     end
     
-    style F1 fill:#a5d6a7
-    style F2 fill:#fff59d
+    style F1 fill:#81c784
+    style F2 fill:#ffd54f
 ```
 
 ---
@@ -853,11 +853,11 @@ graph LR
         D4["Demo-4<br/>< 200ms<br/>(auto)"]
     end
     
-    style D0 fill:#fff176
-    style D1 fill:#aed581
-    style D2 fill:#ffd54f
+    style D0 fill:#ffd54f
+    style D1 fill:#66bb6a
+    style D2 fill:#ffa726
     style D3 fill:#81c784
-    style D4 fill:#aed581
+    style D4 fill:#66bb6a
 ```
 
 ### Complexité de setup
@@ -876,9 +876,9 @@ graph TB
     D3 --> E3[Complexe]
     D4 --> E4[Très Complexe]
     
-    style E1 fill:#a5d6a7
-    style E0 fill:#fff176
-    style E2 fill:#fff176
+    style E1 fill:#66bb6a
+    style E0 fill:#ffd54f
+    style E2 fill:#ffd54f
     style E3 fill:#ffab91
     style E4 fill:#ef9a9a
 ```
@@ -900,9 +900,9 @@ graph TB
     T2 -.-> T3
     T3 -.-> T4
     
-    style T0 fill:#a5d6a7
-    style T1 fill:#a5d6a7
-    style T2 fill:#ffcc80
+    style T0 fill:#66bb6a
+    style T1 fill:#66bb6a
+    style T2 fill:#ffa726
     style T3 fill:#ce93d8
     style T4 fill:#f48fb1
 ```
@@ -926,8 +926,8 @@ graph TD
     C2 --> C3
     C3 --> C4
     
-    style C1 fill:#a5d6a7
-    style C2 fill:#fff176
+    style C1 fill:#66bb6a
+    style C2 fill:#ffd54f
     style C3 fill:#ffab91
     style C4 fill:#ef9a9a
     style N1 fill:#81c784
@@ -959,7 +959,7 @@ graph TB
     
     style W5 fill:#81d4fa
     style U5 fill:#ce93d8
-    style A4 fill:#ffcc80
+    style A4 fill:#ffa726
 ```
 
 ---
@@ -979,7 +979,7 @@ graph TD
     STEP6 --> STEP7[Remove syncUser calls]
     STEP7 --> END[Demo-0 Production]
     
-    style START fill:#a5d6a7
+    style START fill:#66bb6a
     style END fill:#81d4fa
 ```
 
@@ -1003,7 +1003,7 @@ graph TD
     CLEANUP --> END[NextAuth Project]
     
     style START fill:#90caf9
-    style DUAL fill:#fff176
+    style DUAL fill:#ffd54f
     style END fill:#ce93d8
 ```
 
@@ -1020,8 +1020,8 @@ graph LR
     
     D3 --> D4[Demo-4<br/>NextAuth Pro]
     
-    style START fill:#aed581
-    style D1 fill:#9ccc65
+    style START fill:#66bb6a
+    style D1 fill:#66bb6a
     style D2 fill:#81c784
     style D0 fill:#66bb6a
     style D3 fill:#66bb6a
@@ -1048,9 +1048,9 @@ graph TB
     MODIFY --> PUSH[prisma db push]
     PUSH --> END
     
-    style COMPLEX fill:#ffccbc
-    style SIMPLE fill:#c8e6c9
-    style END fill:#a5d6a7
+    style COMPLEX fill:#ffab91
+    style SIMPLE fill:#66bb6a
+    style END fill:#81c784
 ```
 
 ---
@@ -1079,11 +1079,11 @@ graph TB
     Q5 -->|Non| D3[Demo-3<br/>NextAuth Basic]
     Q5 -->|Oui| D4[Demo-4<br/>NextAuth Relations]
     
-    style D0 fill:#bbdefb
-    style D1 fill:#c8e6c9
-    style D2 fill:#ffe0b2
-    style D3 fill:#e1bee7
-    style D4 fill:#f8bbd0
+    style D0 fill:#90caf9
+    style D1 fill:#66bb6a
+    style D2 fill:#ffa726
+    style D3 fill:#ce93d8
+    style D4 fill:#f48fb1
 ```
 
 ### Recommandations par contexte
@@ -1164,11 +1164,11 @@ graph LR
         O4["Demo-4<br/>1-4 ops<br/>(Relations)"]
     end
     
-    style O0 fill:#a5d6a7
-    style O1 fill:#fff59d
-    style O2 fill:#ffccbc
-    style O3 fill:#a5d6a7
-    style O4 fill:#ffccbc
+    style O0 fill:#81c784
+    style O1 fill:#ffd54f
+    style O2 fill:#ffab91
+    style O3 fill:#81c784
+    style O4 fill:#ffab91
 ```
 
 ---
@@ -1187,11 +1187,11 @@ graph TB
         S4["Demo-4<br/>NextAuth DIY<br/>Score: 7/10"]
     end
     
-    style S0 fill:#a5d6a7
-    style S1 fill:#c8e6c9
-    style S2 fill:#c8e6c9
-    style S3 fill:#fff59d
-    style S4 fill:#fff59d
+    style S0 fill:#81c784
+    style S1 fill:#66bb6a
+    style S2 fill:#66bb6a
+    style S3 fill:#ffd54f
+    style S4 fill:#ffd54f
 ```
 
 ### Checklist de sécurité par projet
@@ -1214,16 +1214,16 @@ graph TB
         N6[Monitoring custom]
     end
     
-    style C1 fill:#c8e6c9
-    style C2 fill:#c8e6c9
-    style C3 fill:#c8e6c9
-    style C4 fill:#c8e6c9
-    style N1 fill:#ffe082
-    style N2 fill:#ffe082
-    style N3 fill:#ffe082
-    style N4 fill:#ffe082
-    style N5 fill:#ffe082
-    style N6 fill:#ffe082
+    style C1 fill:#66bb6a
+    style C2 fill:#66bb6a
+    style C3 fill:#66bb6a
+    style C4 fill:#66bb6a
+    style N1 fill:#ffd54f
+    style N2 fill:#ffd54f
+    style N3 fill:#ffd54f
+    style N4 fill:#ffd54f
+    style N5 fill:#ffd54f
+    style N6 fill:#ffd54f
 ```
 
 ---
