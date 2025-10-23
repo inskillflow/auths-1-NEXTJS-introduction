@@ -4,9 +4,10 @@ Ce document fournit un exemple **complet, prêt à copier** pour synchroniser l�
 
 > Cible: Next.js App Router (v14+ ou 15), Clerk, Prisma, TypeScript. Aucune utilisation de webhook.
 
+<br/>
 
 
-## 1) Vue d’ensemble
+# 1) Vue d’ensemble
 
 **Principe**
 
@@ -20,9 +21,10 @@ Ce document fournit un exemple **complet, prêt à copier** pour synchroniser l�
 * Aucune logique serveur dans des Client Components ; pas d’erreur `server-only`.
 * Exécute la synchro **une fois par session** (à l’arrivée), pas à chaque page.
 
----
+<br/>
 
-## 2) Arborescence cible
+
+# 2) Arborescence cible
 
 ```
 app/
@@ -42,9 +44,9 @@ prisma/
 
 > Remplace `(auth)` par n’importe quel groupement de routes si besoin.
 
----
+<br/>
 
-## 3) Prisma — schéma minimal
+# 3) Prisma — schéma minimal
 
 **`prisma/schema.prisma`**
 
@@ -78,9 +80,9 @@ Exécute:
 npx prisma migrate dev --name init
 ```
 
----
+<br/>
 
-## 4) Client Prisma
+# 4) Client Prisma
 
 **`lib/prisma.ts`**
 
@@ -92,9 +94,9 @@ export const prisma = new PrismaClient({
 });
 ```
 
----
+<br/>
 
-## 5) Util serveur de synchro (idempotent)
+# 5) Util serveur de synchro (idempotent)
 
 **`lib/sync-user.ts`**
 
@@ -135,9 +137,10 @@ export async function syncUser() {
 
 > `import "server-only";` empêche d’importer ce fichier depuis un composant client.
 
----
 
-## 6) Pages Clerk (auth) avec redirection vers `/welcome`
+<br/>
+
+# 6) Pages Clerk (auth) avec redirection vers `/welcome`
 
 **`app/(auth)/sign-in/[[...rest]]/page.tsx`**
 
@@ -161,9 +164,9 @@ export default function Page() {
 
 > Si vous avez une route unique `/register`, utilisez `routing="path"` et une route **catch‑all** `app/register/[[...rest]]/page.tsx`, ou bien `routing="hash"`.
 
----
+<br/>
 
-## 7) Page serveur `/welcome` (sync + redirect)
+# 7) Page serveur `/welcome` (sync + redirect)
 
 **`app/welcome/page.tsx`**
 
@@ -183,9 +186,9 @@ export default async function WelcomePage() {
 
 > Pas de `"use client"` ici. C’est un Server Component.
 
----
+<br/>
 
-## 8) Page privée d’exemple
+# 8) Page privée d’exemple
 
 **`app/members/page.tsx`**
 
@@ -200,9 +203,9 @@ export default function MembersPage() {
 }
 ```
 
----
+<br/>
 
-## 9) Middleware — Protéger le reste, laisser passer l’auth et `/welcome`
+# 9) Middleware — Protéger le reste, laisser passer l’auth et `/welcome`
 
 **`middleware.ts`** (Clerk)
 
@@ -230,9 +233,9 @@ export const config = {
 
 > Si vous gérez vos propres listes, utilisez `startsWith('/register')` plutôt que `includes`.
 
----
+<br/>
 
-## 10) Variantes utiles
+# 10) Variantes utiles
 
 ### 10.1 — Alternative Server Action (si vous déclenchez depuis un formulaire)
 
@@ -267,9 +270,10 @@ export async function POST() {
 }
 ```
 
----
 
-## 11) Débogage & erreurs fréquentes
+<br/>
+
+# 11) Débogage & erreurs fréquentes
 
 * **Erreur**: `server-only cannot be imported from a Client Component module`
   **Cause**: import serveur (`@clerk/nextjs/server`, `sync-user.ts`) dans un composant client (`"use client"`).
@@ -283,9 +287,11 @@ export async function POST() {
   **Cause**: appel dans `Home` ou pages visitées fréquemment.
   **Fix**: ne synchroniser que sur `/welcome` (post‑login) ou via webhook.
 
----
 
-## 12) Checklist finale
+
+<br/>
+
+# 12) Checklist finale
 
 * [ ] Routes d’auth Clerk en **catch‑all** (ou `routing="hash"`).
 * [ ] Page `/welcome` **serveur** qui fait `await syncUser()` puis `redirect()`.
@@ -294,9 +300,10 @@ export async function POST() {
 * [ ] Aucun import serveur dans des **Client Components**.
 * [ ] Logs Prisma verbeux uniquement en dev.
 
----
 
-## 13) Questions fréquentes
+<br/>
+
+# 13) Questions fréquentes
 
 **Q: Puis‑je rendre `<SignIn/>` dans une page serveur ?**
 R: Oui. Les composants Clerk d’UI sont clients par nature. La page peut rester serveur tant qu’elle ne met pas `"use client"`.
@@ -309,7 +316,7 @@ R: Optionnel. L’ID Clerk (`clerkId`) doit être unique. L’email peut changer
 
 
 
-
+<br/>
 
 # Diagramme
 
@@ -555,7 +562,87 @@ export default function AutoSubmit({ formId }: { formId: string }) {
 ### Quand choisir quoi ?
 
 * **Option 1** : plus simple et plus rapide → idéal en prod.
-* **Option 2** : utile si toi/tes étudiants voulez voir un **loader/confirmation** avant la redirection.
+* **Option 2** : utile pour avoir un **loader/confirmation** avant la redirection.
 
 > Rappel : toute la logique (Prisma, `auth()`, `syncUser`) reste **côté serveur**. Le composant client sert uniquement à auto-soumettre le formulaire dans l’option 2.
+
+
+
+<br/>
+
+
+# Annexe 5 - exemple de loader
+
+### `src/app/welcome/page.tsx` (SERVER)
+
+```tsx
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { syncUser } from "@/lib/sync-user";
+import AutoSubmit from "./AutoSubmit";
+
+async function syncAndGo() {
+  "use server";
+  await syncUser();
+  redirect("/members");
+}
+
+export default async function WelcomePage() {
+  const { userId } = auth();
+  if (!userId) redirect("/sign-in");
+
+  return (
+    <div className="min-h-dvh grid place-items-center p-8 text-center">
+      <div className="space-y-5">
+        {/* SPINNER */}
+        <div
+          aria-label="Synchronisation en cours"
+          role="status"
+          className="mx-auto h-16 w-16 rounded-full border-4 border-gray-300 border-t-gray-900 animate-spin"
+        />
+        <div className="text-xl font-semibold">Synchronisation…</div>
+        <p className="text-sm opacity-70">Veuillez patienter une seconde.</p>
+
+        {/* Le formulaire déclenche la server action */}
+        <form action={syncAndGo} id="auto-sync" />
+        <AutoSubmit formId="auto-sync" />
+      </div>
+    </div>
+  );
+}
+```
+
+### `src/app/welcome/AutoSubmit.tsx` (CLIENT)
+
+```tsx
+"use client";
+import { useEffect } from "react";
+
+export default function AutoSubmit({ formId }: { formId: string }) {
+  useEffect(() => {
+    const form = document.getElementById(formId) as HTMLFormElement | null;
+    form?.submit();
+  }, [formId]);
+  return null;
+}
+```
+
+#### Notes
+
+* Le **spinner** est le div avec `animate-spin` + bord supérieur contrasté (`border-t-gray-900`) — c’est le style “cercle qui tourne” comme tes images.
+* Tu peux changer la taille (`h-16 w-16`) ou l’épaisseur (`border-4`) selon le look souhaité.
+* Si tu veux une version **foncée** automatique :
+
+  ```html
+  className="mx-auto h-16 w-16 rounded-full border-4 border-gray-300 dark:border-gray-700 border-t-gray-900 dark:border-t-white animate-spin"
+  ```
+
+##### Option SVG (encore plus lisse)
+
+```tsx
+<svg className="mx-auto h-16 w-16 animate-spin" viewBox="0 0 24 24">
+  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+  <path className="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+</svg>
+```
 
