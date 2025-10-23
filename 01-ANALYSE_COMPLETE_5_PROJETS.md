@@ -128,9 +128,13 @@ DATABASE_URL
 - Charge serveur : Faible (événementiel)
 - Maintenance : Faible (géré par Clerk)
 
----
 
-### Demo-1 : clerk-upsert-basic
+
+<br/>
+<br/>
+
+
+# Demo-1 : clerk-upsert-basic
 
 #### Description
 
@@ -233,9 +237,13 @@ DATABASE_URL
 - Charge serveur : Moyenne (à chaque page)
 - Maintenance : Faible
 
----
 
-### Demo-2 : clerk-upsert-relations
+
+<br/>
+<br/>
+
+
+# Demo-2 : clerk-upsert-relations
 
 #### Description
 
@@ -358,9 +366,13 @@ DATABASE_URL
 - Charge serveur : Moyenne-Élevée (relations)
 - Maintenance : Moyenne
 
----
 
-### Demo-3 : nextauth-basic
+
+<br/>
+<br/>
+
+
+# Demo-3 : nextauth-basic
 
 #### Description
 
@@ -514,9 +526,12 @@ GITHUB_SECRET (optionnel)
 - Charge serveur : Faible (JWT)
 - Maintenance : Moyenne
 
----
 
-### Demo-4 : nextauth-relations
+<br/>
+<br/>
+
+
+# Demo-4 : nextauth-relations
 
 #### Description
 
