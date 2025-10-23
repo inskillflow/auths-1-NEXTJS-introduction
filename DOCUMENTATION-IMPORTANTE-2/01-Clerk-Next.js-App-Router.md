@@ -315,30 +315,25 @@ R: Optionnel. L’ID Clerk (`clerkId`) doit être unique. L’email peut changer
 
 ```mermaid
 flowchart TD
-  A[Utilisateur] --> B[sign-in (Clerk UI)]
-  A --> C[sign-up (Clerk UI)]
+  A[User] --> B[Sign in]
+  A --> C[Sign up]
 
-  subgraph AuthPages [Routes d'auth (catch-all)]
+  subgraph AuthPages
     direction TB
-    B -->|afterSignInUrl=/welcome| D[/welcome (Server Component)/]
+    B -->|afterSignInUrl=/welcome| D[Welcome server page]
     C -->|afterSignUpUrl=/welcome| D
   end
 
-  subgraph Middleware [Middleware Clerk]
+  D --> E[syncUser server util]
+  E --> F[Prisma upsert]
+  F --> G[Redirect to /members]
+
+  subgraph Members
     direction TB
-    M1[Public: "/", "/welcome", "/sign-in(.*)", "/sign-up(.*)", "/register(.*)"]
-    M2[Privé: le reste → protect()]
+    G --> H[Members page]
+    H --> I[Protected pages]
   end
 
-  D --> E[syncUser() — util serveur]
-  E --> F[Prisma upsert: where { clerkId } / create/update]
-  F --> G[redirect("/members")]
-
-  subgraph Members [Espace privé]
-    direction TB
-    G --> H[/members]
-    H --> I[Pages protégées…]
-  end
 
 ```
 
