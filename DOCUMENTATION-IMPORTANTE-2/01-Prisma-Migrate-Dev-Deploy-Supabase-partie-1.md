@@ -14,8 +14,8 @@ SHADOW_DATABASE_URL="postgresql://postgres:<PASSWORD>@db.<PROJECT>.supabase.co:5
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2VsZWN0ZWQtZ29iYmxlci05My5jbGVyay5hY2NvdW50cy5kZXYk
 CLERK_SECRET_KEY=sk_test_T0FoaFKpBXx7TcdgtVf4xDpB52TfV0w2oT5cUY99Cr
 
-DATABASE_URL="postgresql://postgres.unssdywzuzguqpiuezam:haythemrehouma@aws-1-us-east-2.pooler.supabase.com:5432/postgres?pgbouncer=true&schema=public"
-DIRECT_URL="postgresql://postgres.unssdywzuzguqpiuezam:haythemrehouma@aws-1-us-east-2.pooler.supabase.com:5432/postgres?sslmode=require&schema=public"
+DATABASE_URL="postgresql://postgres.unssdywzucatcout:haythemrehouma@aws-1-us-east-2.pooler.supabase.com:5432/postgres?pgbouncer=true&schema=public"
+DIRECT_URL="postgresql://postgres.unssdywzucatcout:haythemrehouma@aws-1-us-east-2.pooler.supabase.com:5432/postgres?sslmode=require&schema=public"
 ```
 
 
