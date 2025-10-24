@@ -7,6 +7,37 @@ Ce document fournit un exemple **complet, prêt à copier** pour synchroniser l�
 <br/>
 
 
+1. [Vue d’ensemble](#1-vue-densemble)
+2. [Arborescence cible](#2-arborescence-cible)
+3. [Prisma — schéma minimal](#3-prisma--schéma-minimal)
+4. [Client Prisma](#4-client-prisma)
+5. [Util serveur de synchro (idempotent)](#5-util-serveur-de-synchro-idempotent)
+6. [Pages Clerk (auth) → `/welcome`](#6-pages-clerk-auth-avec-redirection-vers-welcome)
+7. [Page serveur `/welcome` (sync + redirect)](#7-page-serveur-welcome-sync--redirect)
+8. [Page privée d’exemple](#8-page-privée-dexemple)
+9. [Middleware — protéger / laisser passer](#9-middleware--protéger-le-reste-laisser-passer-lauth-et-welcome)
+10. [Variantes utiles](#10-variantes-utiles)
+     10.1 [Server Action](#101--alternative-server-action-si-vous-déclenchez-depuis-un-formulaire)
+     10.2 [API Route](#102--api-route-si-vous-préférez-fetch-depuis-un-client)
+11. [Débogage & erreurs fréquentes](#11-débogage--erreurs-fréquentes)
+12. [Checklist finale](#12-checklist-finale)
+13. [Questions fréquentes](#13-questions-fréquentes)
+14. [Diagrammes (Flowchart + Séquence)](#diagramme)
+
+**Annexes**
+
+* [Annexe 2 — Composant Serveur : principes et bonnes pratiques](#annexe-2)
+* [Annexe 3 — Client Component : usages et limites](#annexe-3)
+* [Annexe 4 — La page `/welcome` a-t-elle besoin de UI ?](#annexe-4---la-page-welcome-a-elle-besoin-de-ui)
+* [Annexe 5 — Exemple de loader ( `/welcome` )](#annexe-5---exemple-de-loader)
+* [Annexe 6 — Questions sur `/welcome` + `AutoSubmit`](#annexe-6)
+* [Annexe 7 — Webhooks Clerk : quand et comment](#annexe-7)
+* [Annexe 8 — Expliquer `sign-in/[[...rest]]/page.tsx`](#annexe-8)
+* [Annexe 9 — Arborescence d’auth : est-ce obligatoire ?](#annexe-9)
+* [Annexe 10 — Alternative sans `[[...rest]]` (routing="hash")](#annexe-10---si-tu-veux-éviter-rest)
+
+
+
 # 1) Vue d’ensemble
 
 **Principe**
