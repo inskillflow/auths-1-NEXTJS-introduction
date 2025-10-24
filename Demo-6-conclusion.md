@@ -1,7 +1,4 @@
-
----
-
-## Conclusions
+# Conclusions
 
 ### Synthèse comparative
 
