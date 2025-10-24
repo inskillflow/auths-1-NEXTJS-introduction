@@ -8,7 +8,7 @@ DIRECT_URL="postgresql://postgres:<PASSWORD>@db.<PROJECT>.supabase.co:5432/postg
 SHADOW_DATABASE_URL="postgresql://postgres:<PASSWORD>@db.<PROJECT>.supabase.co:5432/postgres?sslmode=require&schema=public"
 ```
 
-#### Exemple concret
+## Exemple concret qui fonctionne
 
 ```env
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2VsZWN0ZWQtZ29iYmxlci05Mcatcoutcatcoutcatcout
